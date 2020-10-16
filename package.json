@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "imagemin": "^7.0.1",
+    "imagemin-webp": "^6.0.0",
+    "request": "^2.88.2",
+    "sharp": "^0.26.0"
+  }
+}
