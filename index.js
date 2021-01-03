@@ -74,7 +74,7 @@ function resizeAndWebp(file, width) {
     sharp(file).
       toFormat('webp').
       resize({ width }).
-      webp({ quality: 80 }).
+      webp({ quality: 100 }).
       toBuffer()
   )
 }
