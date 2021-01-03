@@ -4,6 +4,13 @@ This is the code for a simple AWS Lambda function that resizes images on demand 
 
 The function will fetch the image from $FILE_HOST/images/[file], where `file` is grabbed from the `file` query param and the resize based on an optional `width`.
 
+## Deploy
+- Run:
+``` bash
+npm install --arch=x64 --platform=linux
+```
+- Zip index.js and node_modules and upload to AWS Lambda
+
 ## Keep in mind
 
 - For now, images are always looked for in png, which means a request for www.lambda_host.com?file=myimage.jpg will be fetched from $FILE_HOST/images/myimage.png
