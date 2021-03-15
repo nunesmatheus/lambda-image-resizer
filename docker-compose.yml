@@ -1,0 +1,7 @@
+version: '3'
+services:
+  web:
+    container_name: image-resizer
+    build: .
+    volumes:
+      - ".:/image-resizer/"
