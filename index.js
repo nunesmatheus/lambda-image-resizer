@@ -1,19 +1,14 @@
 const fs = require("fs"),
   request = require("request");
 
-const imagemin = require("imagemin");
-const imageminWebp = require("imagemin-webp");
-
 const sharp = require("sharp");
-
-const { exec } = require("child_process");
 
 exports.handler = async (event) => {
   const query = event["queryStringParameters"];
 
   const download = function (uri, filename, callback) {
-    return new Promise((resolve, reject) => {
-      request.head(uri, function (err, res, body) {
+    return new Promise((resolve, _reject) => {
+      request.head(uri, function (_err, _res, _body) {
         request(uri)
           .pipe(fs.createWriteStream(filename))
           .on("close", () => {
@@ -24,30 +19,30 @@ exports.handler = async (event) => {
   };
 
   const { file } = query;
-  const image_extension = /[a-z0-9A-Z]+\.([a-z]+)$/.exec(file)[1];
-  const original_image = file.replace(image_extension, "png");
-  const image_url = `${process.env.FILE_HOST}/images/${original_image}`;
-  const tmp_path = `/tmp/${original_image}`;
+  const imageExtension = /[a-z0-9A-Z]+\.([a-z]+)$/.exec(file)[1];
+  const originalImage = file.replace(imageExtension, "png");
+  const imageUrl = `${process.env.FILE_HOST}/images/${originalImage}`;
+  const tmpPath = `/tmp/${originalImage}`;
 
-  await download(image_url, tmp_path);
+  await download(imageUrl, tmpPath);
 
-  const response = await responseFromPath(tmp_path, query);
+  const response = await responseFromPath(tmpPath, query);
   return response;
 };
 
 function responseFromPath(path, query) {
   const { file } = query;
-  const image_extension = /[a-z0-9A-Z]+\.([a-z]+)$/.exec(file)[1];
+  const imageExtension = /[a-z0-9A-Z]+\.([a-z]+)$/.exec(file)[1];
   let { width } = query;
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     sharp(path)
       .metadata()
       .then((info) => {
         width = width ? parseInt(width) : info.width;
 
         let buffer, content_type;
-        if (image_extension === "webp") {
+        if (imageExtension === "webp") {
           buffer = resizeAndWebp(path, width);
           content_type = "image/webp";
         } else {
@@ -80,6 +75,7 @@ function resizeAndWebp(file, width) {
       quality: 80,
       reductionEffort: 6,
     })
+    .sharpen(0.5, 1, 1)
     .toBuffer();
 }
 
