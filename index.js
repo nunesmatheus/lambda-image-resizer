@@ -22,7 +22,8 @@ exports.handler = async (event) => {
   const imageExtension = /[a-z0-9A-Z]+\.([a-z]+)$/.exec(file)[1];
   const originalImage = file.replace(imageExtension, "png");
   const imageUrl = `${process.env.FILE_HOST}/images/${originalImage}`;
-  const tmpPath = `/tmp/${originalImage}`;
+  const pieces = originalImage.split("/");
+  const tmpPath = `/tmp/${pieces[pieces.length - 1]}`;
 
   await download(imageUrl, tmpPath);
 
