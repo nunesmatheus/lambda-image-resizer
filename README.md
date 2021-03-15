@@ -7,7 +7,7 @@ The function will fetch the image from $FILE_HOST/images/[file], where `file` is
 ## Deploy
 - Run:
 ``` bash
-npm install --arch=x64 --platform=linux
+docker-compose run --rm web npm i
 ```
 - Zip index.js and node_modules and upload to AWS Lambda
 
