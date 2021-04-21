@@ -73,10 +73,9 @@ function resizeAndWebp(file, width) {
   return sharp(file)
     .resize({ width })
     .webp({
-      quality: 80,
+      quality: 100,
       reductionEffort: 6,
     })
-    .sharpen(0.5, 1, 1)
     .toBuffer();
 }
 
